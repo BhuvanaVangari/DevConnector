@@ -1,14 +1,16 @@
 package com.dnb.DevConnector.dto;
 
-import java.util.regex.Pattern;
 
-import javax.naming.InvalidNameException;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
-import com.dnb.DevConnector.exceptions.InvalidEmailIdException;
-import com.dnb.DevConnector.exceptions.InvalidPasswordException;
+import com.dnb.DevConnector.utils.CustomIdGenerator;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,40 +23,20 @@ import lombok.ToString;
 @Entity
 public class User {
 	
-	private String name;
+	
 	@Id
+	@NotBlank(message = "User id should not be blank")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "user_seq")
+	
+	@GenericGenerator(name = "user_seq", strategy = "com.dnb.DevConnector.utils.CustomIdGenerator",
+	parameters =  {@Parameter(name=CustomIdGenerator.INCREMENT_PARAM,value="50"),
+			@Parameter(name=CustomIdGenerator.BOOLEAN_FORMAT_PARAMETER,value="false"),
+			@Parameter(name=CustomIdGenerator.VALUE_PREFIX_PARAMETER,value="User_")}
+			)
+	private String userId;
+	private String name;
+	//unique key constraint
 	private String emailId;
 	private String password;
 
-	public User(String name,String emailId,String password) throws InvalidNameException, InvalidEmailIdException, InvalidPasswordException {
-		super();
-		this.setName(name);
-		this.setEmailId(emailId);
-		this.setPassword(password);
-	}
-	
-	public void setName(String name) throws InvalidNameException {
-		String regex = "^[a-zA-Z]{2,}$";
-
-		if (Pattern.compile(regex).matcher(name).find())
-			this.name = name;
-		else
-			throw new InvalidNameException("Name is not valid");
-	}
-	public void setEmailId(String emailId) throws InvalidEmailIdException {
-		String regex="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-		
-		if(Pattern.compile(regex).matcher(emailId).find())
-			this.emailId = emailId;
-		else
-			throw new InvalidEmailIdException("Invalid Mail");
-	}
-	public void setPassword(String password) throws InvalidPasswordException {
-		String regex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
-		
-		if(Pattern.compile(regex).matcher(password).find())
-			this.password = password;
-		else
-			throw new InvalidPasswordException("Invalid Password:Length should be>12, should contain >1 UPPERCASE Letter, should contain spl chars");
-	}
 }

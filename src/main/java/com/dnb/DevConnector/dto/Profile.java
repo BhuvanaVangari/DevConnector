@@ -3,28 +3,47 @@ package com.dnb.DevConnector.dto;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-import com.dnb.DevConnector.exceptions.InvalidSkillsException;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
+import com.dnb.DevConnector.utils.CustomIdGenerator;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Getter
+@Data
 @EqualsAndHashCode
 @NoArgsConstructor
 @ToString
 @Entity
 public class Profile {
 	@Id
-	private UUID profileUUID;
-	private String professionalStatus;
+	@NotBlank(message = "profile id should not be blank")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "profile_seq")
+	
+	@GenericGenerator(name = "profile_seq", strategy = "com.dnb.DevConnector.utils.CustomIdGenerator",
+	parameters =  {@Parameter(name=CustomIdGenerator.INCREMENT_PARAM,value="50"),
+			@Parameter(name=CustomIdGenerator.BOOLEAN_FORMAT_PARAMETER,value="false"),
+			@Parameter(name=CustomIdGenerator.VALUE_PREFIX_PARAMETER,value="Pro_")}
+			)
+	private String profileUUID;
+	@Column(nullable = false)
+	@NotBlank(message = "Professional status should not be blank")
+	private String professionalStatus;//not null
 	private String company;
 	private String website;
 	private String location;
-	private String skills;
+	@Column(nullable = false)
+	@NotBlank(message = "Skills should not be blank")
+	private String skills;//not null
 	private String gitUsername;
 	private String bio;
 	private String twitterURL;
@@ -33,75 +52,5 @@ public class Profile {
 	private String linkedinURL;
 	private String instagramURL;
 	
-	public Profile(String professionalStatus, String company, String website, String location,
-			String skills, String gitUsername, String bio, String twitterURL, String facebookURL, String youTubeURL,
-			String linkedinURL, String instagramURL) throws InvalidSkillsException {
-		super();
-		this.setProfileUUID();
-		this.setProfessionalStatus(professionalStatus);
-		this.setCompany(company);
-		this.setWebsite(website); 
-		this.setLocation(location);
-		this.setSkills(skills);
-		this.setGitUsername(gitUsername);
-		this.setBio(bio); 
-		this.setTwitterURL(twitterURL); 
-		this.setFacebookURL(facebookURL); 
-		this.setYouTubeURL(youTubeURL); 
-		this.setLinkedinURL(linkedinURL); 
-		this.setInstagramURL(instagramURL); 
-	}
-	
-	public void setProfileUUID() {
-		this.profileUUID = UUID.randomUUID();
-	}
-	public void setProfessionalStatus(String professionalStatus) {
-		this.professionalStatus = professionalStatus;
-	}
-	public void setCompany(String company) {
-		this.company = company;
-	}
-	public void setWebsite(String website) {
-		this.website = website;
-	}
-	public void setLocation(String location) {
-		this.location = location;
-	}
-	public void setSkills(String skills) throws InvalidSkillsException {
-		String regex="^[a-zA-Z]+(,[a-zA-Z]+)*$";
-//				True: hello
-//				True: hello,world
-//				False: hello,world,
-//				False: ,hello
-//				False: hello,world,123,
-//				False: hello,123,
-//				False: hello,
-		if(Pattern.compile(regex).matcher(skills).find())
-			this.skills = skills;
-		else {
-			throw new InvalidSkillsException("Give proper commas between skills");
-		}
-	}
-	public void setGitUsername(String gitUsername) {
-		this.gitUsername = gitUsername;
-	}
-	public void setBio(String bio) {
-		this.bio = bio;
-	}
-	public void setTwitterURL(String twitterURL) {
-		this.twitterURL = twitterURL;
-	}
-	public void setFacebookURL(String facebookURL) {
-		this.facebookURL = facebookURL;
-	}
-	public void setYouTubeURL(String youTubeURL) {
-		this.youTubeURL = youTubeURL;
-	}
-	public void setLinkedinURL(String linkedinURL) {
-		this.linkedinURL = linkedinURL;
-	}
-	public void setInstagramURL(String instagramURL) {
-		this.instagramURL = instagramURL;
-	}
 		
 }
