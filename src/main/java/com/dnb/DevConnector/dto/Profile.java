@@ -19,7 +19,7 @@ import lombok.ToString;
 @Entity
 public class Profile {
 	@Id
-	private String profileUUID;
+	private UUID profileUUID;
 	private String professionalStatus;
 	private String company;
 	private String website;
@@ -53,7 +53,7 @@ public class Profile {
 	}
 	
 	public void setProfileUUID() {
-		this.profileUUID = UUID.randomUUID().toString();
+		this.profileUUID = UUID.randomUUID();
 	}
 	public void setProfessionalStatus(String professionalStatus) {
 		this.professionalStatus = professionalStatus;
