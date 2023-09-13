@@ -41,8 +41,9 @@ public class Experience {
 	private String jobTitle;
 	@Column(nullable = false)
 	@NotBlank(message = "Company name should not be blank")
-	private String Company;
+	private String company;
 	private String location;
 	private LocalDate fromDate;
+	private boolean currentJob;
 	private LocalDate toDate;
 }
