@@ -32,7 +32,8 @@ public class Education {
 	@GenericGenerator(name = "education_seq", strategy = "com.dnb.DevConnector.utils.CustomIdGenerator",
 	parameters =  {@Parameter(name=CustomIdGenerator.INCREMENT_PARAM,value="50"),
 			@Parameter(name=CustomIdGenerator.VALUE_PREFIX_PARAMETER,value="Edu_"),
-			@Parameter(name=CustomIdGenerator.BOOLEAN_FORMAT_PARAMETER,value="true")}
+			@Parameter(name=CustomIdGenerator.FLAG_PARAMETER,value="true"),
+			@Parameter(name=CustomIdGenerator.NUMBER_FORMAT_PARAMETER,value="%05d")}
 			)
 	private String educationId;
 	@Column(nullable = false)
