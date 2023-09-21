@@ -57,11 +57,12 @@ public class RequestToEntityMapper {
 		profile.setSkills(profileRequest.getSkills());
 		profile.setGitUsername(profileRequest.getGitUsername());
 		profile.setBio(profileRequest.getBio());
-		profile.setTwitterURL(profileRequest.getTwitterURL());
-		profile.setFacebookURL(profileRequest.getFacebookURL());
-		profile.setYouTubeURL(profileRequest.getYouTubeURL());
-		profile.setLinkedinURL(profileRequest.getLinkedinURL());
-		profile.setInstagramURL(profileRequest.getInstagramURL());
+		profile.setLinks(profileRequest.getLinks());
+//		profile.setTwitterURL(profileRequest.getTwitterURL());
+//		profile.setFacebookURL(profileRequest.getFacebookURL());
+//		profile.setYouTubeURL(profileRequest.getYouTubeURL());
+//		profile.setLinkedinURL(profileRequest.getLinkedinURL());
+//		profile.setInstagramURL(profileRequest.getInstagramURL());
 		
 		User user=new User();
 		user.setUserId(profileRequest.getUserId());

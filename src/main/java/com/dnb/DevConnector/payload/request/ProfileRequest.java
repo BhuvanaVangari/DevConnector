@@ -1,5 +1,7 @@
 package com.dnb.DevConnector.payload.request;
 
+import com.dnb.DevConnector.dto.SocialNetworkLinks;
+
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -18,11 +20,12 @@ public class ProfileRequest {
 	private String skills;//not null
 	private String gitUsername;
 	private String bio;
-	private String twitterURL;
-	private String facebookURL;
-	private String youTubeURL;
-	private String linkedinURL;
-	private String instagramURL;
+	private SocialNetworkLinks links;
+//	private String twitterURL;
+//	private String facebookURL;
+//	private String youTubeURL;
+//	private String linkedinURL;
+//	private String instagramURL;
 	@NotNull
 	private String userId;
 }

@@ -1,6 +1,8 @@
 package com.dnb.DevConnector.dto;
 
 
+import java.util.List;
+
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -18,6 +20,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -52,17 +55,21 @@ public class Profile {
 	private String skills;//not null
 	private String gitUsername;
 	private String bio;
-	private String twitterURL;
-	private String facebookURL;
-	private String youTubeURL;
-	private String linkedinURL;
-	private String instagramURL;
+	private SocialNetworkLinks links;
+//	private String twitterURL;
+//	private String facebookURL;
+//	private String youTubeURL;
+//	private String linkedinURL;
+//	private String instagramURL;
 	
 	@OneToOne(fetch=FetchType.LAZY,cascade = CascadeType.ALL)
 	@JoinColumn(name="user_id",referencedColumnName="userId")
-	@JsonIgnore
 	private User user; 
 	
+	@OneToMany(cascade = CascadeType.ALL,mappedBy="profile")
+	private List<Education>educations;
 	
+	@OneToMany(cascade = CascadeType.ALL,mappedBy="profile")
+	private List<Experience>experiences;
 		
 }

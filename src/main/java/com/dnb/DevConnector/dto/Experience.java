@@ -54,7 +54,7 @@ public class Experience {
 	private String jobDescription;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@OnDelete(action = OnDeleteAction.SET_NULL)
+	//@OnDelete(action = OnDeleteAction.SET_NULL)
 	@JoinColumn(name="profileuuid",referencedColumnName="profileUUID")
 	@JsonIgnore
 	private Profile profile;
