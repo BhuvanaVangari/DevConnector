@@ -18,8 +18,10 @@ import com.dnb.DevConnector.dto.Profile;
 import com.dnb.DevConnector.exceptions.DataNotFoundException;
 import com.dnb.DevConnector.exceptions.IdNotFoundException;
 import com.dnb.DevConnector.exceptions.InvalidIdException;
+import com.dnb.DevConnector.mapper.EntityToResponseMapper;
 import com.dnb.DevConnector.mapper.RequestToEntityMapper;
 import com.dnb.DevConnector.payload.request.ProfileRequest;
+import com.dnb.DevConnector.payload.response.ProfileResponse;
 import com.dnb.DevConnector.service.ProfileService;
 
 import jakarta.validation.Valid;
@@ -34,12 +36,16 @@ public class ProfileController {
 	@Autowired
 	RequestToEntityMapper requestToEntityMapper;
 	
+	@Autowired
+	EntityToResponseMapper entityToResponseMapper;
+	
 	@PostMapping("/create")
 	public ResponseEntity<?>createProfile(@Valid @RequestBody ProfileRequest profileRequest){
 		Profile profile=requestToEntityMapper.getProfileEntityObject(profileRequest);
 		try {
 			Profile profile2 = profileService.createProfile(profile);
-			return new ResponseEntity(profile2,HttpStatus.CREATED);
+			ProfileResponse profileResponse = entityToResponseMapper.setProfileResponseObject(profile2);
+			return new ResponseEntity(profileResponse,HttpStatus.CREATED);
 		} catch (IdNotFoundException e) {
 			// TODO Auto-generated catch block
 			return ResponseEntity.badRequest().body(e.getMessage());
@@ -51,6 +57,17 @@ public class ProfileController {
 		Optional<Profile>optional=profileService.getProfileById(profileId);
 		if(optional.isPresent()) {
 			return ResponseEntity.ok(optional.get());
+//			Profile profile=new Profile();
+//			profile.setProfessionalStatus(optional.get().getProfessionalStatus());
+//			profile.setCompany(optional.get().getCompany());
+//			profile.setWebsite(optional.get().getWebsite());
+//			profile.setLocation(optional.get().getLocation());
+//			profile.setSkills(optional.get().getSkills());
+//			profile.setGitUsername(optional.get().getGitUsername());
+//			profile.setBio(optional.get().getBio());
+//			profile.setLinks(optional.get().getLinks());
+//			ProfileResponse profileResponse = entityToResponseMapper.setProfileResponseObject(profile);
+//			return ResponseEntity.ok(profileResponse);
 		}
 		else {
 			throw new InvalidIdException("Profile id is not valid");

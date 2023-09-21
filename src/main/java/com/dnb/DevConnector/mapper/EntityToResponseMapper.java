@@ -1,8 +1,28 @@
 package com.dnb.DevConnector.mapper;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.dnb.DevConnector.dto.Profile;
+import com.dnb.DevConnector.payload.response.ProfileResponse;
+import com.dnb.DevConnector.utils.Converter;
 
 @Component
 public class EntityToResponseMapper {
 
+	@Autowired
+	Converter converter;
+	
+	public ProfileResponse setProfileResponseObject(Profile profile) {
+		ProfileResponse profileResponse=new ProfileResponse();
+		profileResponse.setProfessionalStatus(profile.getProfessionalStatus());
+		profileResponse.setCompany(profile.getCompany());
+		profileResponse.setWebsite(profile.getWebsite());
+		profileResponse.setLocation(profile.getLocation());
+		profileResponse.setSkills(converter.stringToArray(profile.getSkills()));
+		profileResponse.setGitUsername(profile.getGitUsername());
+		profileResponse.setBio(profile.getBio());
+		profileResponse.setLinks(profile.getLinks());
+		return profileResponse;
+	}
 }
