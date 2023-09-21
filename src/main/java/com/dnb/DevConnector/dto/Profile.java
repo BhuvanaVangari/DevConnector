@@ -1,18 +1,24 @@
 package com.dnb.DevConnector.dto;
 
-import java.util.UUID;
-import java.util.regex.Pattern;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Parameter;
 
 import com.dnb.DevConnector.utils.CustomIdGenerator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,11 +28,10 @@ import lombok.ToString;
 @Data
 @EqualsAndHashCode
 @NoArgsConstructor
-@ToString
+@ToString(exclude = {"user"})
 @Entity
 public class Profile {
 	@Id
-	@NotBlank(message = "profile id should not be blank")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "profile_seq")
 	
 	@GenericGenerator(name = "profile_seq", strategy = "com.dnb.DevConnector.utils.CustomIdGenerator",
@@ -52,6 +57,12 @@ public class Profile {
 	private String youTubeURL;
 	private String linkedinURL;
 	private String instagramURL;
+	
+	@OneToOne(fetch=FetchType.LAZY,cascade = CascadeType.ALL)
+	@JoinColumn(name="user_id",referencedColumnName="userId")
+	@JsonIgnore
+	private User user; 
+	
 	
 		
 }

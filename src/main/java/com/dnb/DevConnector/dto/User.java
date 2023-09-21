@@ -1,19 +1,26 @@
 package com.dnb.DevConnector.dto;
 
+import java.util.Optional;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.dnb.DevConnector.utils.CustomIdGenerator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -26,7 +33,6 @@ public class User {
 	
 	
 	@Id
-	@NotBlank(message = "User id should not be blank")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "user_seq")
 	
 	@GenericGenerator(name = "user_seq", strategy = "com.dnb.DevConnector.utils.CustomIdGenerator",
@@ -37,8 +43,26 @@ public class User {
 			)
 	private String userId;
 	private String name;
-	//unique key constraint
+	@Column(unique=true)
 	private String emailId;
+	@NotBlank(message = "Password should not be empty")
+	@jakarta.validation.constraints.Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")
+//	False: password
+//	True: password123
+//	False: pa$$word
+//	False: 12345678
+//	False: PASSWORD
+//	False: P@ss
+//	False: p@ss
 	private String password;
+	
+	@Transient
+	@jakarta.validation.constraints.Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")
+	private String confirmPassword;
+	
+	@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy ="user")
+//	@JsonIgnore
+	@JsonIgnoreProperties("user")
+	private Profile profile;
 
 }

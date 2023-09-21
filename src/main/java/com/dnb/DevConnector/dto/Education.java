@@ -3,15 +3,21 @@ package com.dnb.DevConnector.dto;
 import java.time.LocalDate;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Parameter;
 
 import com.dnb.DevConnector.utils.CustomIdGenerator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,7 +32,6 @@ import lombok.ToString;
 public class Education {
 
 	@Id
-	@NotBlank(message = "Education id should not be blank")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "education_seq")
 	
 	@GenericGenerator(name = "education_seq", strategy = "com.dnb.DevConnector.utils.CustomIdGenerator",
@@ -44,7 +49,14 @@ public class Education {
 	private String degree;//not null
 	private String fieldOfStudy;
 	private LocalDate fromDate;
-	private boolean currentSchool;
+	private Boolean currentSchool;
 	private LocalDate toDate;
 	private String progDescription;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@OnDelete(action = OnDeleteAction.SET_NULL)
+	@JoinColumn(name="profileuuid",referencedColumnName="profileUUID")
+	@JsonIgnore
+	private Profile profile;
+	
 }

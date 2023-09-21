@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dnb.DevConnector.dto.Education;
+import com.dnb.DevConnector.dto.Profile;
 import com.dnb.DevConnector.exceptions.IdNotFoundException;
 import com.dnb.DevConnector.repo.EducationRepository;
+import com.dnb.DevConnector.repo.ProfileRepository;
 
 @Service("educationServiceImpl")
 public class EducationServiceImpl implements EducationService {
@@ -15,10 +17,22 @@ public class EducationServiceImpl implements EducationService {
 	@Autowired
 	private EducationRepository educationRepository;
 	
+	@Autowired
+	private ProfileRepository profileRepository;
+	
 	@Override
-	public Education createEducationProfile(Education education) {
+	public Education createEducationProfile(Education education) throws IdNotFoundException {
 		// TODO Auto-generated method stub
-		return educationRepository.save(education);
+		Optional<Profile>profile=profileRepository.findById(education.getProfile().getProfileUUID());
+		
+		if(profile.isPresent()) {
+			education.setProfile(profile.get());
+			return educationRepository.save(education);
+		}
+		else {
+			profile.orElseThrow(()->new IdNotFoundException("Profile id is not valid"));
+		}
+		return null;
 	}
 
 	@Override
@@ -46,6 +60,12 @@ public class EducationServiceImpl implements EducationService {
 		else {
 			throw new IdNotFoundException("ID not found");
 		}
+	}
+	
+	@Override
+	public boolean educationExistsById(String educationId) {
+		if(educationRepository.existsById(educationId))return true;
+		else return false;
 	}
 
 }

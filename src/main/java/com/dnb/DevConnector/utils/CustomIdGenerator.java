@@ -104,18 +104,4 @@ public class CustomIdGenerator extends SequenceStyleGenerator {
 
 	}
 
-//	@Override
-//	public Object generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
-//		// TODO Auto-generated method stub
-//		return valuePrefix + String.format(numberFormat, super.generate(session, object));
-//	}
-//
-//	@Override
-//	public void configure(Type type, Properties parameters, ServiceRegistry serviceRegistry) throws MappingException {
-//		// TODO Auto-generated method stub
-//		super.configure(new TypeConfiguration().getBasicTypeRegistry().getRegisteredType(Long.class), parameters,
-//				serviceRegistry);
-//		valuePrefix = ConfigurationHelper.getString(VALUE_PREFIX_PARAMETER, parameters, VALUE_PREFIX_DEFAULT);
-//		numberFormat = ConfigurationHelper.getString(NUMBER_FORMAT_PARAMETER, parameters, NUMBER_FORMAT_DEFAULT);
-//	}
 }

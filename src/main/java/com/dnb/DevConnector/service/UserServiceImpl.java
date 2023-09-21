@@ -22,9 +22,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Optional<User> getUserByEmailId(String emailId) {
+	public Optional<User> getUserByUserId(String userId) {
 		// TODO Auto-generated method stub
-		return userRepository.findById(emailId);
+		return userRepository.findById(userId);
 	}
 
 	@Override
@@ -34,11 +34,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean deleteUserByEmailId(String emailId) throws IdNotFoundException {
+	public boolean deleteUserById(String userId) throws IdNotFoundException {
 		// TODO Auto-generated method stub
-		if(userRepository.existsById(emailId)) {
-			userRepository.deleteById(emailId);
-			if(userRepository.existsById(emailId)) {
+		if(userRepository.existsById(userId)) {
+			userRepository.deleteById(userId);
+			if(userRepository.existsById(userId)) {
 				return false;
 			}
 			return true;
@@ -47,6 +47,12 @@ public class UserServiceImpl implements UserService {
 			throw new IdNotFoundException("ID not found");
 		}
 	}
-
+	
+	@Override
+	public boolean userExistsById(String userId) {
+		// TODO Auto-generated method stub
+		if(userRepository.existsById(userId))return true;
+		else return false;
+	}
 	
 }

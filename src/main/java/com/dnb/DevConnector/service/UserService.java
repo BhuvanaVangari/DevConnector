@@ -8,9 +8,11 @@ import com.dnb.DevConnector.exceptions.IdNotFoundException;
 public interface UserService {
 	public User createUser(User user);
 	
-	public Optional<User> getUserByEmailId(String emailId);
+	public Optional<User> getUserByUserId(String userId);
 	
 	public Iterable<User> getAllUsers();
 	
-	public boolean deleteUserByEmailId(String emailId) throws IdNotFoundException;
+	public boolean deleteUserById(String userId) throws IdNotFoundException;
+
+	public boolean userExistsById(String userId);
 }
