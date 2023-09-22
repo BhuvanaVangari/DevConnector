@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -55,6 +56,7 @@ public class Profile {
 	private String skills;//not null
 	private String gitUsername;
 	private String bio;
+	@Embedded
 	private SocialNetworkLinks links;
 //	private String twitterURL;
 //	private String facebookURL;

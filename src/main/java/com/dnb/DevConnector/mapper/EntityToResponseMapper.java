@@ -1,6 +1,5 @@
 package com.dnb.DevConnector.mapper;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.dnb.DevConnector.dto.Profile;
@@ -10,8 +9,8 @@ import com.dnb.DevConnector.utils.Converter;
 @Component
 public class EntityToResponseMapper {
 
-	@Autowired
-	Converter converter;
+	
+	Converter converter=new Converter();
 	
 	public ProfileResponse setProfileResponseObject(Profile profile) {
 		ProfileResponse profileResponse=new ProfileResponse();

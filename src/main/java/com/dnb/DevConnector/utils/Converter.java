@@ -3,6 +3,9 @@ package com.dnb.DevConnector.utils;
 import java.util.Arrays;
 import java.util.List;
 
+import jakarta.persistence.Convert;
+
+
 public class Converter {
 	public List<String> stringToArray(String commaSeparated) {
 		String [] arrayStr = commaSeparated.split("\\s*,\\s*");

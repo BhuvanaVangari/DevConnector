@@ -1,17 +1,9 @@
 package com.dnb.DevConnector.dto;
 
-import java.util.List;
-
-import jakarta.persistence.Entity;
+import jakarta.persistence.Embeddable;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-
 @Data
-@EqualsAndHashCode
-@NoArgsConstructor
-@ToString
+@Embeddable
 public class SocialNetworkLinks {
 	private String twitterURL;
 	private String facebookURL;
