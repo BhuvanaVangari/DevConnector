@@ -22,6 +22,7 @@ public class EntityToResponseMapper {
 		profileResponse.setGitUsername(profile.getGitUsername());
 		profileResponse.setBio(profile.getBio());
 		profileResponse.setLinks(profile.getLinks());
+		profileResponse.setUserId(profile.getUser().getUserId());
 		return profileResponse;
 	}
 }
