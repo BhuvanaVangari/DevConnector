@@ -14,6 +14,7 @@ public class EntityToResponseMapper {
 	
 	public ProfileResponse setProfileResponseObject(Profile profile) {
 		ProfileResponse profileResponse=new ProfileResponse();
+		profileResponse.setProfileUUID(profile.getProfileUUID());
 		profileResponse.setProfessionalStatus(profile.getProfessionalStatus());
 		profileResponse.setCompany(profile.getCompany());
 		profileResponse.setWebsite(profile.getWebsite());

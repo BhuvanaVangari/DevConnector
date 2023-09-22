@@ -5,12 +5,15 @@ import java.util.List;
 import com.dnb.DevConnector.dto.SocialNetworkLinks;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 public class ProfileResponse {
+	@Id
+	private String profileUUID;
 	@Column(nullable = false)
 	@NotBlank(message = "Professional status should not be blank")
 	private String professionalStatus;//not null
